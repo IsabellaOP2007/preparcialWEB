@@ -1,0 +1,6 @@
+{
+  "/actors/page": "app/actors/page.js",
+  "/api/v1/actors/route": "app/api/v1/actors/route.js",
+  "/api/v1/actors/[actorId]/route": "app/api/v1/actors/[actorId]/route.js",
+  "/crear/page": "app/crear/page.js"
+}
