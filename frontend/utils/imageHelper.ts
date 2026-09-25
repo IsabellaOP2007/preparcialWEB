@@ -56,3 +56,40 @@ export function normalizePhotoUrl(url: string | undefined, name: string): string
 
   return trimmed;
 }
+
+/**
+ * Genera un poster de película fallback en SVG.
+ */
+export function getMoviePosterFallbackSvg(title: string): string {
+  const cleanTitle = (title || 'Película').trim();
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450">
+    <defs>
+      <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#1e293b;stop-opacity:1" />
+        <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+      </linearGradient>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#grad)"/>
+    <text x="150" y="180" font-size="64" text-anchor="middle">🎬</text>
+    <text x="150" y="240" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#ffffff" text-anchor="middle">${cleanTitle.length > 25 ? cleanTitle.substring(0, 23) + '...' : cleanTitle}</text>
+    <text x="150" y="270" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" fill="#94a3b8" text-anchor="middle">Póster Oficial</text>
+  </svg>`;
+
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+}
+
+/**
+ * Normaliza la URL del póster de película.
+ */
+export function normalizePosterUrl(url: string | undefined, title: string): string {
+  if (!url || typeof url !== 'string' || url.trim() === '') {
+    return getMoviePosterFallbackSvg(title);
+  }
+
+  const trimmed = url.trim();
+  if (trimmed.startsWith('http://dummyimage.com')) {
+    return trimmed.replace('http://', 'https://');
+  }
+
+  return trimmed;
+}
